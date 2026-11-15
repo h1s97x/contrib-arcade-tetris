@@ -1,0 +1,41 @@
+name: "contrib-arcade-tetris"
+description: "Falling pieces line up with the contribution grid. Thin shell over h1s97x/contrib-core (ready)."
+author: "h1s97x"
+
+# This file is the whole shell: it fixes one game and forwards every other
+# input to the core. Open gameplay PRs against the core; when forking this
+# repo, point the `uses:` line below at your own core fork.
+
+inputs:
+  github_user_name:
+    description: "user name on the contribution platform"
+    required: false
+  user_name:
+    description: "alias of github_user_name"
+    required: false
+  github_token:
+    description: "token used to fetch the contribution calendar"
+    required: false
+    default: ${{ github.token }}
+  platform:
+    description: "github | cnb | gitlab"
+    required: false
+    default: github
+  outputs:
+    description: "one SVG per line, with optional ?palette= / ?renderer= query options"
+    required: false
+    default: |
+      tetris.svg
+      tetris-dark.svg?palette=github-dark
+
+runs:
+  using: composite
+  steps:
+    - uses: h1s97x/contrib-core@main
+      with:
+        platform: ${{ inputs.platform }}
+        user_name: ${{ inputs.user_name }}
+        github_user_name: ${{ inputs.github_user_name }}
+        github_token: ${{ inputs.github_token }}
+        renderer: tetris
+        outputs: ${{ inputs.outputs }}
