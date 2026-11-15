@@ -31,7 +31,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: h1s97x/contrib-core@main
+    - uses: h1s97x/contrib-core@v3.6.0
       with:
         platform: ${{ inputs.platform }}
         user_name: ${{ inputs.user_name }}
