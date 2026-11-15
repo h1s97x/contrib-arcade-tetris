@@ -8,6 +8,17 @@
 
 Falling pieces line up with the contribution grid.
 
+## Preview
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./tetris-dark.svg" />
+  <img alt="Tetris preview" src="./tetris.svg" />
+</picture>
+
+`tetris.svg` and `tetris-dark.svg` are committed previews rendered offline
+from a fixed 53×7 sample grid by `contrib-core`; no API token is needed to view
+them. Regenerate with `bun run demo:shells` in the core repo.
+
 CNB: `h1s97x/plugins/contrib-arcade-tetris`. GitHub mirror: `h1s97x/contrib-arcade-tetris`. Create this mirror separately to use the shell as a GitHub Action.
 `action.yml` points at the core mirror `h1s97x/contrib-core`, which must exist before
 this shell's workflow can run.
@@ -32,17 +43,19 @@ Everything else from the core Action works here too: `platform`, `user_name`,
 `github_token` and the per-output query options (`palette`, `color_dots`,
 `color_snake`, `renderer`). See the [core README](https://github.com/h1s97x/contrib-core#readme).
 
-## Why a separate repository
+## Why a separate channel
 
-One repo per game means its own issues, README, preview, release cadence and
-maintainers. Someone can be given write access to just this game's shell
-without touching the other seven. Upgrades still happen once, in the core.
+Each game gets its own Marketplace listing, `uses:` path, version tag and
+README. This repository is a **read-only** artifact generated from
+`templates/shell/` in the core: open issues and pull requests in
+`contrib-core`. Upgrades happen once in the core and are published to every
+channel by `publish-shells.sh`.
 
 ## Forking
 
 Fork this repo to change branding, default outputs, issue templates or
 maintainers without touching game logic. To use your own core, edit the `uses:`
-line in `action.yml` from `h1s97x/contrib-core@main` to your fork and ref.
+line in `action.yml` from `h1s97x/contrib-core@v3.6.0` to your fork and ref.
 
 To change how the game actually plays, open a PR against the core renderer in
 [h1s97x/contrib-core](https://github.com/h1s97x/contrib-core) instead — every shell picks up the change
@@ -50,9 +63,10 @@ automatically.
 
 ## Regenerating
 
-This shell was produced by `bun run scaffold` in the core repo. To keep all
-shells in sync, change `templates/shell/` there and re-run it, rather than
-editing generated files by hand.
+This shell was produced by `bun run scaffold` (plus `bun run demo:shells`
+for the previews) in the core repo. To keep all shells in sync, change
+`templates/shell/` there and re-run it, rather than editing generated files
+by hand.
 
 ## License
 
